@@ -12,31 +12,30 @@
     <a-layout style="min-height: calc(100vh - 64px)">
 
       <a-layout>
-        <!-- <a-layout-header style="background: #fff; padding: 0">
-          <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
-          <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
-        </a-layout-header> -->
 
-        <left-menu :collapsed="collapsed"></left-menu>
+        <left-menu 
+        :menuitems="states.json"
+        :collapsed="collapsed" @pushItem="addCounter"></left-menu>
 
         <!-- 主体 -->
         <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
 
-          <div v-for="(d,index) in counter" :key="index">
-            <dom :mess="d.d" :info="d.t"></dom>
-          </div>
+          <Content v-for="item in states.selected" 
+          :key="item.id" 
+          :text="item.text" 
+          :icon="item.icon"
+          :type="item.type">
+          </Content>
+
           <a-empty :image="simpleImage" />
         </a-layout-content>
         <!-- 主体 -->
-<!-- 
-        <a-layout-footer style="text-align: center">
-          Ant Design ©2018 Created by Ant UED
-        </a-layout-footer> -->
+
       </a-layout>
 
       <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', right: 0 }">
         <!-- <div class="logo" /> -->
-        <a-menu mode="inline" v-model:selectedKeys="selectedKeys">
+        <!-- <a-menu mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="1">
             <user-outlined />
             <span>nav 1</span>
@@ -49,48 +48,136 @@
             <upload-outlined />
             <span>nav 3</span>
           </a-menu-item>
-        </a-menu>
+        </a-menu> -->
       </a-layout-sider>
     </a-layout>
   </a-layout>
 </template>
-<script >
+<script lang="ts">
   import {
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,    
+    // UserOutlined,
+    // VideoCameraOutlined,
+    // UploadOutlined  
   } from '@ant-design/icons-vue';
 
-  import { defineComponent, ref } from 'vue';
+  import {
+    defineComponent,
+    ref,
+    reactive
+  } from 'vue';
+import { SelectedFormItem } from '@/lib/interface';
 
   import LeftMenu from '@/components/common/LeftMenu';
+  import Content from '@/components/common/Content';
 
-  import { Empty } from 'ant-design-vue';
+  import {
+    Empty
+  } from 'ant-design-vue';
+
+
 
   export default defineComponent({
-    dara(){
-      return{
-        counter: Array
+    dara() {
+      return {
+        counter: {
+          type: Array
+        }
       }
     },
     components: {
-      UserOutlined,
-      VideoCameraOutlined,
-      UploadOutlined,
-      MenuUnfoldOutlined,
-      MenuFoldOutlined,
-      LeftMenu
+      // UserOutlined,
+      // VideoCameraOutlined,
+      // UploadOutlined,   
+      LeftMenu,
+      Content
     },
 
     setup() {
+      const states = reactive({
+        json: [{
+            id: 1,
+            icon: 'UserOutlined',
+            type: 'input',
+            text: '输入框'
+          },
+          {
+            id: 2,
+            icon: 'UserOutlined',
+            type: 'textarea',
+            text: '文本框'
+          },
+          {
+            id: 3,
+            icon: 'icon-number',
+            type: 'select',
+            text: '数字输入框'
+          },
+          {
+            id: 4,
+            icon: 'icon-drop_down_line',
+            type: 'textarea',
+            text: '下拉选择器'
+          },
+          {
+            id: 5,
+            icon: 'icon-duoxuanti',
+            type: 'textarea',
+            text: '多选框'
+          },
+          {
+            id: 6,
+            icon: 'icon-radio',
+            type: 'textarea',
+            text: '单选框'
+          },
+          {
+            id: 7,
+            icon: 'icon-date',
+            type: 'textarea',
+            text: '日期选择器'
+          },
+          {
+            id: 8,
+            icon: 'icon-Timeoutlinedicon',
+            type: 'textarea',
+            text: '日期选择器'
+          },
+          {
+            id: 9,
+            icon: 'icon-rate',
+            type: 'textarea',
+            text: '日期选择器'
+          },
+          {
+            id: 10,
+            icon: 'icon-slider',
+            type: 'textarea',
+            text: '滑块输入条'
+          },
+          {
+            id: 11,
+            icon: 'icon-kaiguankai',
+            type: 'textarea',
+            text: '开关'
+          }
+        ],
+        selected: [] as SelectedFormItem[],
+        showAddVisible: false,
+        indexActive: '1'
+      });
       return {
-        selectedKeys: ref(['1']),
+        states,
         collapsed: ref(false),
-        simpleImage: Empty.PRESENTED_IMAGE_SIMPLE,
+
       };
     },
+    methods: {
+      addCounter(tt) {      
+        this.counter.push(tt);
+      }
+
+
+    }
 
   });
 </script>
@@ -117,28 +204,10 @@
     line-height: 26px;
     position: relative;
     float: left;
-    left: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 1%;
-    color: #333;
+    margin: 2% 1%;
+    padding: 0;
     border: 1px solid #f4f6fc;
 
-    a {
-      display: block;
-      cursor: move;
-      background: #f4f6fc;
-      border: 1px solid #f4f6fc;
-      padding: 0px 5px;
-      color: #333;
-
-
-      span {
-        display: inline-block;
-        vertical-align: middle;
-      }
-    }
   }
 
   #components-layout-demo-custom-trigger .trigger {
