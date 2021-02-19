@@ -13,18 +13,12 @@
 
       <a-layout>
 
-        <left-menu 
-        :menuitems="states.json"
-        :collapsed="collapsed" @pushItem="addCounter"></left-menu>
+        <left-menu :menuitems="states.json" :collapsed="collapsed" @pushItem="addCounter"></left-menu>
 
         <!-- 主体 -->
         <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
 
-          <Content v-for="item in states.selected" 
-          :key="item.id" 
-          :text="item.text" 
-          :icon="item.icon"
-          :type="item.type">
+          <Content v-for="item in states.selected" :key="item.id" :text="item.text" :icon="item.icon" :type="item.type">
           </Content>
 
           <a-empty :image="simpleImage" />
@@ -65,23 +59,24 @@
     ref,
     reactive
   } from 'vue';
-import { SelectedFormItem } from '@/lib/interface';
+  import {
+    Empty
+  } from 'ant-design-vue';
+  import {
+    SelectedFormItem
+  } from '@/lib/interface';
 
   import LeftMenu from '@/components/common/LeftMenu';
   import Content from '@/components/common/Content';
 
-  import {
-    Empty
-  } from 'ant-design-vue';
+
 
 
 
   export default defineComponent({
     dara() {
       return {
-        counter: {
-          type: Array
-        }
+        counter: Array
       }
     },
     components: {
@@ -172,7 +167,9 @@ import { SelectedFormItem } from '@/lib/interface';
       };
     },
     methods: {
-      addCounter(tt) {      
+      addCounter(tt: string) {
+        console.log(this)
+        console.log(this.counter)
         this.counter.push(tt);
       }
 
