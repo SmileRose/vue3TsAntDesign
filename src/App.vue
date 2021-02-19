@@ -1,5 +1,6 @@
 <template>  
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <HelloWorld/>
+  <!-- <router-view></router-view> -->
 </template>
 
 <script lang="ts">
