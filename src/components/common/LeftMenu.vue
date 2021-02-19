@@ -66,7 +66,7 @@
     import {
         defineComponent,
         ref,
-        PropType
+        // PropType
     } from 'vue'
 
 
@@ -75,55 +75,15 @@
             name: String,
             success: {
                 type: String
-            },
-            callback: {
-                type: Function as PropType < () => void >
-            },
-            message: {
-                type: Object as PropType < ComplexMessage > ,
-                required: true,
-                validator(message: ComplexMessage) {
-                    return !!message.title
-                }
-            }
+            }          
         },
-        // components: {
-
-        // },
         setup() {
-            return {
-                selectedKeys: ref(['1']),
+            //在 setup() 函数中，不需要将类型传递给 props 参数，因为它将从 props 组件选项推断类型。
+            return {                
                 collapsed: ref(false),
             };
         },
 
-
-        // 已启用类型推断
     })
 
-
-    // import {  Prop } from 'vue-class-component';
-
-
-
-    // @Component
-    // export default class AlertComponent extends Vue {
-    //   // props
-    //   @Prop({ default: "这是个弹窗" }) private content!: string;
-
-    //   @Prop({ default: "确定" }) private define!: string;
-
-    //   @Prop({ default: "取消" }) private cancel!: string;
-
-    //   @Prop() private defineHandler: (() => void) | undefined;
-
-    //   @Prop() private cancelHandler: (() => void) | undefined;
-
-    //   // methods
-    //   @Emit("define-event")
-    //   private defineEvent() {
-    //     console.log("点击了确认按钮");
-    //   }
-
-    // }
 </script>

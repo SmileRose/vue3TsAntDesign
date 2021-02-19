@@ -12,10 +12,10 @@
     <a-layout style="min-height: calc(100vh - 64px)">
 
       <a-layout>
-        <a-layout-header style="background: #fff; padding: 0">
+        <!-- <a-layout-header style="background: #fff; padding: 0">
           <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
           <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
-        </a-layout-header>
+        </a-layout-header> -->
 
         <left-menu :collapsed="collapsed"></left-menu>
 
@@ -54,7 +54,7 @@
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts">
+<script >
   import {
     UserOutlined,
     VideoCameraOutlined,
@@ -63,12 +63,9 @@
     MenuFoldOutlined,    
   } from '@ant-design/icons-vue';
 
-  import {
-    defineComponent,
-    ref
-  } from 'vue';
+  import { defineComponent, ref } from 'vue';
 
-  import LeftMenu from '@/components/common/LeftMenu'
+  import LeftMenu from '@/components/common/LeftMenu';
 
   import { Empty } from 'ant-design-vue';
 
@@ -76,7 +73,6 @@
     dara(){
       return{
         counter: Array
-
       }
     },
     components: {
