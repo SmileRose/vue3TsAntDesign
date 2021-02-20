@@ -19,7 +19,7 @@
             {{attr.timeline}}
           </div>
           <div class="Rose-copy">
-            <CopyOutlined />
+            <CopyOutlined @click="RoseAdd" />
           </div>
           <div
             class="Rose-delete"
