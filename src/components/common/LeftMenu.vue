@@ -4,7 +4,7 @@
             <!-- 基础字段 -->
             <div class="Rose-para">
                 <a-button v-for="(item, key, index) in state.json" v-bind:key="key" class="Rose-menu-item"
-                    @click="addItem(item.type)">
+                    @click="addItem(item)">
                     {{item.text}}
                 </a-button>
             </div>
@@ -113,7 +113,8 @@
             };
         },
         methods: {
-            addItem(thisType: string) {             
+            addItem(thisType: string) {   
+                console.log(thisType)          
                 this.$emit("pushItem", thisType)
             }
         }

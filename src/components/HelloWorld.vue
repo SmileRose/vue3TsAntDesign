@@ -1,32 +1,27 @@
 <template>
-
-  <a-layout style="min-height: 100vh">
-
+  <a-layout>
     <!-- <header> -->
-
-    <a-layout-header style="background: #5aa700; padding: 0">
-
+    <a-layout-header style="background: #5aa700; padding: 0" :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
     </a-layout-header>
     <!-- <header> -->
-
-    <a-layout style="min-height: calc(100vh - 64px)">
-
+    <a-layout style="{min-height: calc(100vh - 64px)}">
       <a-layout>
-
-        <left-menu :menuitems="states.json" :collapsed="collapsed" @pushItem="addCounter"></left-menu>
-
+        <a-layout-sider class="Rose-slider">
+          <left-menu :menuitems="states.json" :collapsed="collapsed" @pushItem="appendFormItem"></left-menu>
+        </a-layout-sider>
         <!-- 主体 -->
-        <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
-
-          <Content v-for="item in states.selected" :key="item.id" :text="item.text" :icon="item.icon" :type="item.type">
-          </Content>
-
-          <a-empty :image="simpleImage" />
+        <a-layout-content class="Rose-content">
+          <div v-if="states.selected.length">
+            <Content v-for="item in states.selected" :key="item.id" :text="item.text" :icon="item.icon"
+              :type="item.type" :attr="item" @update:appendFormItem="appendFormItem">
+            </Content>
+          </div>
+          <div class="Rose-content" v-else>
+            <a-empty :image="simpleImage" />
+          </div>
         </a-layout-content>
         <!-- 主体 -->
-
       </a-layout>
-
       <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', right: 0 }">
         <!-- <div class="logo" /> -->
         <!-- <a-menu mode="inline" v-model:selectedKeys="selectedKeys">
@@ -53,7 +48,6 @@
     // VideoCameraOutlined,
     // UploadOutlined  
   } from '@ant-design/icons-vue';
-
   import {
     defineComponent,
     ref,
@@ -65,16 +59,10 @@
   import {
     SelectedFormItem
   } from '@/lib/interface';
-
   import LeftMenu from '@/components/common/LeftMenu';
   import Content from '@/components/common/Content';
-
-
-
-
-
   export default defineComponent({
-    dara() {
+    data() {
       return {
         counter: Array
       }
@@ -86,7 +74,6 @@
       LeftMenu,
       Content
     },
-
     setup() {
       const states = reactive({
         json: [{
@@ -105,7 +92,7 @@
             id: 3,
             icon: 'icon-number',
             type: 'select',
-            text: '数字输入框'
+            text: '下拉选择器'
           },
           {
             id: 4,
@@ -160,25 +147,44 @@
         showAddVisible: false,
         indexActive: '1'
       });
+      const appendFormItem = (x: any) => {
+        console.log(x)
+        const obj = {
+          id: x.type,
+          type: x.type,
+          text: x.text
+        }
+        states.selected.push(obj);
+      }
       return {
         states,
+        appendFormItem,
         collapsed: ref(false),
-
       };
     },
     methods: {
       addCounter(tt: string) {
-        console.log(this)
-        console.log(this.counter)
-        this.counter.push(tt);
+        // states.selected.push()
+        // console.log(tt)
+        // this.counter.push(tt);
       }
-
-
     }
-
   });
 </script>
 <style lang="less">
+  .Rose-content {
+    margin: 64px 20px
+  }
+
+  .Rose-slider.ant-layout-sider {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    background: #2e2f34;
+    top: 64px
+  }
+
   .Rose-lists {
     padding: 8px 0;
     width: 100%;
@@ -190,7 +196,6 @@
     overflow: hidden;
     padding: 0 10px 10px;
     margin: 0;
-
   }
 
   .Rose-menu-item {
@@ -204,28 +209,5 @@
     margin: 2% 1%;
     padding: 0;
     border: 1px solid #f4f6fc;
-
-  }
-
-  #components-layout-demo-custom-trigger .trigger {
-    font-size: 18px;
-    line-height: 64px;
-    padding: 0 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-
-  #components-layout-demo-custom-trigger .trigger:hover {
-    color: #1890ff;
-  }
-
-  #components-layout-demo-custom-trigger .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
-  }
-
-  .site-layout .site-layout-background {
-    background: #fff;
   }
 </style>

@@ -1,14 +1,18 @@
 <template>
   <div class="Rose-content">
-    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
 
-      <a-form-model-item :label="form.name" v-if="attr.type==='input'">
-        <a-input  />
-      </a-form-model-item>
+    <a-form :model="form" :label-col="labelCol" :wrapper-col="wrapperCol" layout="horizontal" labelAlign="right">
 
-      <a-form-model-item label="Activity zone" v-else-if="attr.type==='select'">
+      <a-form-item label="输入框" v-if="attr.type=='input'">
+        <a-input block />
+      </a-form-item>
+      <a-form-item label="输入框" v-else-if="attr.type=='textarea'">
+        <a-textarea v-model:value="value2" placeholder="textarea with clear icon" allow-clear :rows="4" />
+      </a-form-item>
 
-        <a-select v-model="form.name" placeholder="">
+      <a-form-item label="下拉框" v-else-if="attr.type=='select'">
+
+        <a-select v-model:value="attr.region" placeholder="please select your zone">
           <a-select-option value="shanghai">
             Zone one
           </a-select-option>
@@ -16,8 +20,9 @@
             Zone two
           </a-select-option>
         </a-select>
-      </a-form-model-item>
-    </a-form-model>
+      </a-form-item>
+    </a-form>
+
   </div>
 </template>
 
@@ -26,25 +31,31 @@
     defineComponent,
     PropType
   } from 'vue';
+
   interface ComplexMessage {
-    name: '',
-      region: undefined,
+    text: '',
+      icon: undefined,
       date1: undefined,
-      delivery: false,
       type: string,
       resource: '',
       desc: '',
   }
 
+  interface FormState {
+    name: string;
+    region: string | undefined;
+    date1: Moment | undefined;
+    delivery: boolean;
+    type: string[];
+    resource: string;
+    desc: string;
+  }
+
   export default defineComponent({
     data() {
       return {
-        labelCol: {
-          span: 4
-        },
-        wrapperCol: {
-          span: 14
-        },
+        labelCol: {span: 4, offset: 0},
+        wrapperCol: {span: 16},
 
       };
     },
